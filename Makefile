@@ -1,7 +1,7 @@
 OVMF_DIR := /usr/share/OVMF
 
 VM 	:= qemu-system-x86_64
-VMFLAGS := -bios $(OVMF_DIR)/OVMF_CODE.fd -hda kernel3.img # -pflash $(OVMF_DIR)/OVMF_CODE.fd
+VMFLAGS := -bios $(OVMF_DIR)/OVMF_CODE.fd # -pflash $(OVMF_DIR)/OVMF_CODE.fd
 
 BIN 	:= ./bin
 BUILD 	:= ./build
@@ -49,4 +49,4 @@ clean:
 	rm -rf $(OBJS) kernel3.img BOOTX64.efi
 
 run: all
-	$(VM) $(VMFLAGS)
+	$(VM) $(VMFLAGS) -hda kernel3.img
