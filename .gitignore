@@ -5,3 +5,7 @@ build/
 *.exe
 *.img
 *.efi
+
+*.o
+
+*.swp
