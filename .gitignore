@@ -1,2 +1,7 @@
 bin/
 build/
+
+*.bin
+*.exe
+*.img
+*.efi
