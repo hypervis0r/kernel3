@@ -54,7 +54,15 @@ EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
 	if (EFI_ERROR(Status))
 		return Status;
 
-	Status = BtPeExecuteEntryPoint(SystemTable, KernelPeAddress);
+	SOA_KERNEL_INFORMATION KernelInfo;
+
+	KernelInfo.Framebuffer = Framebuffer;
+	KernelInfo.FramebufferSize = FramebufferSize;
+	KernelInfo.KernelBase = KernelPeAddress;
+	KernelInfo.GraphicsInfo = GopModeInfo;
+	KernelInfo.SystemTable = SystemTable;
+
+	Status = BtPeExecuteEntryPoint(SystemTable, KernelPeAddress, &KernelInfo);
 	if (EFI_ERROR(Status))
 		return Status;
 

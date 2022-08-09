@@ -395,5 +395,16 @@ typedef struct IMAGE_RELOC
 #define LOBYTE(w)           ((UINT8)(((UINTN)(w)) & 0xff))
 #define HIBYTE(w)           ((UINT8)((((UINTN)(w)) >> 8) & 0xff))
 
-EFI_STATUS BtPeExecuteEntryPoint(EFI_SYSTEM_TABLE *SystemTable, EFI_PHYSICAL_ADDRESS PeAddress);
+#include <Protocol/GraphicsOutput.h>
+
+typedef struct SOA_KERNEL_INFORMATION
+{
+    EFI_PHYSICAL_ADDRESS KernelBase;
+    EFI_SYSTEM_TABLE* SystemTable;
+    EFI_PHYSICAL_ADDRESS Framebuffer;
+    UINTN FramebufferSize;
+    EFI_GRAPHICS_OUTPUT_MODE_INFORMATION* GraphicsInfo;
+} SOA_KERNEL_INFORMATION, *PSOA_KERNEL_INFORMATION;
+
+EFI_STATUS BtPeExecuteEntryPoint(EFI_SYSTEM_TABLE *SystemTable, EFI_PHYSICAL_ADDRESS PeAddress, SOA_KERNEL_INFORMATION* KernelInfo);
 EFI_STATUS BtPeLoad(EFI_SYSTEM_TABLE *SystemTable, CHAR16* Path, EFI_PHYSICAL_ADDRESS* PeAddress);

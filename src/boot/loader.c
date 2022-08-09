@@ -105,7 +105,7 @@ EFI_STATUS MapPeSections(EFI_SYSTEM_TABLE *SystemTable, VOID* Buffer, EFI_PHYSIC
     return EFI_SUCCESS;
 }
 
-EFI_STATUS BtPeExecuteEntryPoint(EFI_SYSTEM_TABLE *SystemTable, EFI_PHYSICAL_ADDRESS PeAddress)
+EFI_STATUS BtPeExecuteEntryPoint(EFI_SYSTEM_TABLE *SystemTable, EFI_PHYSICAL_ADDRESS PeAddress, SOA_KERNEL_INFORMATION* KernelInfo)
 {
     EFI_STATUS Status = 0;
     PIMAGE_NT_HEADERS pNtHeaders;
@@ -134,9 +134,9 @@ EFI_STATUS BtPeExecuteEntryPoint(EFI_SYSTEM_TABLE *SystemTable, EFI_PHYSICAL_ADD
     if (pNtHeaders->OptionalHeader.Magic != IMAGE_NT_OPTIONAL_HDR64_MAGIC)
         return 4;
 
-    EFI_STATUS (*EntryPoint)(EFI_SYSTEM_TABLE*) = RVA(UINTN, PeAddress, pNtHeaders->OptionalHeader.AddressOfEntryPoint);
+    EFI_STATUS (*EntryPoint)(SOA_KERNEL_INFORMATION*) = RVA(UINTN, PeAddress, pNtHeaders->OptionalHeader.AddressOfEntryPoint);
 
-    return EntryPoint(SystemTable);
+    return EntryPoint(KernelInfo);
 }
 
 EFI_STATUS BtPeLoad(EFI_SYSTEM_TABLE *SystemTable, CHAR16* Path, EFI_PHYSICAL_ADDRESS* PeAddress)
