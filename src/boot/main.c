@@ -1,4 +1,6 @@
 #include <Uefi.h>
+
+#include "boot/loader.h"
  
 EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
 {
@@ -30,6 +32,8 @@ EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
 	if (EFI_ERROR(Status))
 		return Status;
  
+	BtLoadPeFile(SystemTable, L"\\system\\kernel3.exe");
+
     /* 
 		Now wait until a key becomes available.  This is a simple
        	polling implementation.  You could try and use the WaitForKey
