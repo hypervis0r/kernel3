@@ -1,7 +1,7 @@
 OVMF_DIR := /usr/share/OVMF
 
 VM 	:= qemu-system-x86_64
-VMFLAGS := -bios $(OVMF_DIR)/OVMF_CODE.fd # -pflash $(OVMF_DIR)/OVMF_CODE.fd
+VMFLAGS := -smp 1 -bios $(OVMF_DIR)/OVMF_CODE.fd -s # -pflash $(OVMF_DIR)/OVMF_CODE.fd
 
 BIN 	:= ./bin
 BUILD 	:= ./build
@@ -17,7 +17,9 @@ CFLAGS 	:= -target x86_64-unknown-windows-gnu 	\
 		-ffreestanding			\
 		-fshort-wchar			\
 		-mno-red-zone 			\
-		-I$(INCLUDE) -I$(EDK2_INCLUDE) -I$(EDK2_INCLUDE_ARCH)
+		-I$(INCLUDE) -I$(EDK2_INCLUDE) -I$(EDK2_INCLUDE_ARCH) \
+		-g \
+		-O0
 
 KERNEL_CFLAGS := -target x86_64-unknown-windows-gnu \
 		-m64 \
@@ -27,14 +29,16 @@ KERNEL_CFLAGS := -target x86_64-unknown-windows-gnu \
 		-fno-stack-check \
 		-fshort-wchar \
 		-mno-red-zone -maccumulate-outgoing-args \
-		-I$(INCLUDE) -I$(EDK2_INCLUDE) -I$(EDK2_INCLUDE_ARCH)
+		-I$(INCLUDE) -I$(EDK2_INCLUDE) -I$(EDK2_INCLUDE_ARCH) \
+		-g \
+		-O0
 
 
 BOOT_LDFLAGS := -target x86_64-unknown-windows 	\
 		-nostdlib 			\
 		-Wl,-entry:efi_main 		\
 		-Wl,-subsystem:efi_application 	\
-		-fuse-ld=lld
+		-fuse-ld=lld -g
 
 KERNEL_LDFLAGS := \
 		-target x86_64-unknown-windows-gnu \
@@ -43,7 +47,7 @@ KERNEL_LDFLAGS := \
 		-Wl,-dll \
 		-shared \
 		-Wl,--subsystem,33 \
-		-e KeMain
+		-e KeMain -g
 
 BOOT_SRCS := $(shell find $(SRC)/boot -name '*.c')
 BOOT_OBJS := $(BOOT_SRCS:.c=.o)

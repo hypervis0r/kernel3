@@ -8,7 +8,7 @@ EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
     /* 
 		Say hi 
 	*/
-	Status = SystemTable->ConOut->OutputString(SystemTable->ConOut, L"kernel3 bootloader get!\r\n"); // EFI Applications use Unicode and CRLF, a la Windows
+	Status = SystemTable->ConOut->OutputString(SystemTable->ConOut, L"[+] Scourge of Armagon online\r\n"); // EFI Applications use Unicode and CRLF, a la Windows
 	if (EFI_ERROR(Status))
 	    return Status;
 
