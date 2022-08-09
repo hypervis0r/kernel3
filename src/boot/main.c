@@ -32,7 +32,9 @@ EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
 	if (EFI_ERROR(Status))
 		return Status;
  
-	BtLoadPeFile(SystemTable, L"\\system\\kernel3.exe");
+	Status = BtLoadPeFile(SystemTable, L"\\system\\kernel3.exe");
+	if (EFI_ERROR(Status))
+		return Status;
 
     /* 
 		Now wait until a key becomes available.  This is a simple

@@ -42,12 +42,12 @@ BOOT_LDFLAGS := -target x86_64-unknown-windows 	\
 
 KERNEL_LDFLAGS := \
 		-target x86_64-unknown-windows-gnu \
-		-Wl,-T,kernel.ld \
 		-nostdlib \
-		-Wl,-dll \
 		-shared \
-		-Wl,--subsystem,33 \
-		-e KeMain -g
+		-fuse-ld=lld \
+		-Wl,-e,KeMain \
+		-g \
+		-Wl,--image-base,0xC000000000000000
 
 BOOT_SRCS := $(shell find $(SRC)/boot -name '*.c')
 BOOT_OBJS := $(BOOT_SRCS:.c=.o)
