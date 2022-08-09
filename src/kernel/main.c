@@ -3,6 +3,14 @@
 EFI_STATUS KeMain(SOA_KERNEL_INFORMATION* KernelInfo)
 {
     EFI_STATUS Status = 0;
+    DOE_GFX_BUFFER GfxBuffer;
+
+    GfxBuffer.Framebuffer = KernelInfo->Framebuffer;
+    GfxBuffer.FramebufferSize = KernelInfo->FramebufferSize;
+    GfxBuffer.HorizontalResolution = KernelInfo->GraphicsInfo->HorizontalResolution;
+    GfxBuffer.VerticalResolution = KernelInfo->GraphicsInfo->VerticalResolution;
+    GfxBuffer.PixelFormat = KernelInfo->GraphicsInfo->PixelFormat;
+    GfxBuffer.PixelsPerScanLine = KernelInfo->GraphicsInfo->PixelsPerScanLine;
 
     //KeBootClearScreen(BootloaderInfo->lpGopInfo, 0xFF0000);
 
@@ -10,7 +18,7 @@ EFI_STATUS KeMain(SOA_KERNEL_INFORMATION* KernelInfo)
 	{
 		for (int x = 0; x < KernelInfo->GraphicsInfo->HorizontalResolution; x++)
 		{
-			*((UINT32*)(KernelInfo->Framebuffer + 4 * KernelInfo->GraphicsInfo->PixelsPerScanLine * y + 4 * x)) = 0x0000FF00;
+			KeGfxDrawPixel(&GfxBuffer, x, y, 0x0000FF00);
 		}
 	}
 
