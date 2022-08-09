@@ -1,12 +1,28 @@
 #include <Uefi.h>
 
 #include "boot/loader.h"
+#include "boot/gop.h"
  
 EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
 {
 	EFI_STATUS Status;
 	EFI_INPUT_KEY Key;
- 
+	
+	EFI_GRAPHICS_OUTPUT_MODE_INFORMATION* GopModeInfo = NULL;
+	EFI_PHYSICAL_ADDRESS Framebuffer = NULL;
+	UINTN FramebufferSize = 0;
+	Status = BtGopGetFramebuffer(SystemTable, &GopModeInfo, &Framebuffer, &FramebufferSize);
+	if (EFI_ERROR(Status))
+	    return Status;
+
+	for (int y = 0; y < GopModeInfo->VerticalResolution; y++)
+	{
+		for (int x = 0; x < GopModeInfo->HorizontalResolution; x++)
+		{
+			*((UINT32*)(Framebuffer + 4 * GopModeInfo->PixelsPerScanLine * y + 4 * x)) = 0x00FF0000;
+		}
+	}
+
     /* 
 		Say hi 
 	*/
