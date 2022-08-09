@@ -6,9 +6,13 @@ EFI_STATUS KeMain(SOA_KERNEL_INFORMATION* KernelInfo)
 
     //KeBootClearScreen(BootloaderInfo->lpGopInfo, 0xFF0000);
 
-    Status = KernelInfo->SystemTable->ConOut->OutputString(KernelInfo->SystemTable->ConOut, L"[+] WE IN THE KERNEL BITCHES\r\n");
-	if (EFI_ERROR(Status))
-	    return Status;
+    for (int y = 0; y < KernelInfo->GraphicsInfo->VerticalResolution; y++)
+	{
+		for (int x = 0; x < KernelInfo->GraphicsInfo->HorizontalResolution; x++)
+		{
+			*((UINT32*)(KernelInfo->Framebuffer + 4 * KernelInfo->GraphicsInfo->PixelsPerScanLine * y + 4 * x)) = 0x0000FF00;
+		}
+	}
 
     for (;;) asm volatile("hlt");
 

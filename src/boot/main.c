@@ -54,6 +54,31 @@ EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
 	if (EFI_ERROR(Status))
 		return Status;
 
+	UINTN MemoryMapSize = 0;
+	EFI_MEMORY_DESCRIPTOR* MemoryMap = NULL;
+
+	UINTN MapKey;
+	UINTN DescriptorSize;
+	UINT32 DescriptorVersion;
+
+	Status = SystemTable->BootServices->GetMemoryMap(&MemoryMapSize, MemoryMap, &MapKey, &DescriptorSize, &DescriptorVersion);
+	if (Status != EFI_BUFFER_TOO_SMALL)
+		return Status;	
+
+	MemoryMapSize = MemoryMapSize + (2 * DescriptorSize);
+
+	Status = SystemTable->BootServices->AllocatePool(EfiLoaderData, MemoryMapSize, &MemoryMap);
+	if (EFI_ERROR(Status))
+		return Status;
+
+	Status = SystemTable->BootServices->GetMemoryMap(&MemoryMapSize, MemoryMap, &MapKey, &DescriptorSize, &DescriptorVersion);
+	if (EFI_ERROR(Status))
+		return Status;
+
+	Status = SystemTable->BootServices->ExitBootServices(ImageHandle, MapKey);
+	if (EFI_ERROR(Status))
+		return Status;
+
 	SOA_KERNEL_INFORMATION KernelInfo;
 
 	KernelInfo.Framebuffer = Framebuffer;
@@ -65,13 +90,6 @@ EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
 	Status = BtPeExecuteEntryPoint(SystemTable, KernelPeAddress, &KernelInfo);
 	if (EFI_ERROR(Status))
 		return Status;
-
-    /* 
-		Now wait until a key becomes available.  This is a simple
-       	polling implementation.  You could try and use the WaitForKey
-       	event instead if you like 
-	*/
-    while ((Status = SystemTable->ConIn->ReadKeyStroke(SystemTable->ConIn, &Key)) == EFI_NOT_READY) ;
  
     return Status;
 }
