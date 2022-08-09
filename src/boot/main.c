@@ -32,7 +32,13 @@ EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
 	if (EFI_ERROR(Status))
 		return Status;
  
-	Status = BtLoadPeFile(SystemTable, L"\\system\\kernel3.exe");
+	EFI_PHYSICAL_ADDRESS KernelPeAddress = NULL;
+
+	Status = BtPeLoad(SystemTable, L"\\system\\kernel3.exe", &KernelPeAddress);
+	if (EFI_ERROR(Status))
+		return Status;
+
+	Status = BtPeExecuteEntryPoint(SystemTable, KernelPeAddress);
 	if (EFI_ERROR(Status))
 		return Status;
 

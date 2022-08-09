@@ -11,10 +11,6 @@ EFI_STATUS MapPeSections(EFI_SYSTEM_TABLE *SystemTable, VOID* Buffer, EFI_PHYSIC
 
     pDosHeader = (PIMAGE_DOS_HEADER)Buffer;
 
-    Status = SystemTable->ConOut->OutputString(SystemTable->ConOut, L"1\r\n");
-	if (EFI_ERROR(Status))
-	    return Status;
-
     if (pDosHeader->e_magic != IMAGE_DOS_SIGNATURE)
         return 1;
 
@@ -40,10 +36,6 @@ EFI_STATUS MapPeSections(EFI_SYSTEM_TABLE *SystemTable, VOID* Buffer, EFI_PHYSIC
 
     Status = SystemTable->BootServices->AllocatePages(AllocateAnyPages, EfiLoaderData, RegionPagesCount, &PeBuffer);
     if (EFI_ERROR(Status))
-	    return Status;
-
-    Status = SystemTable->ConOut->OutputString(SystemTable->ConOut, L"6\r\n");
-	if (EFI_ERROR(Status))
 	    return Status;
 
     // copy across the headers
@@ -110,14 +102,10 @@ EFI_STATUS MapPeSections(EFI_SYSTEM_TABLE *SystemTable, VOID* Buffer, EFI_PHYSIC
 
     *BaseAddress = PeBuffer;
 
-    Status = SystemTable->ConOut->OutputString(SystemTable->ConOut, L"7\r\n");
-	if (EFI_ERROR(Status))
-	    return Status;
-
     return EFI_SUCCESS;
 }
 
-EFI_STATUS BtExecutePeEntryPoint(EFI_SYSTEM_TABLE *SystemTable, EFI_PHYSICAL_ADDRESS PeAddress)
+EFI_STATUS BtPeExecuteEntryPoint(EFI_SYSTEM_TABLE *SystemTable, EFI_PHYSICAL_ADDRESS PeAddress)
 {
     EFI_STATUS Status = 0;
     PIMAGE_NT_HEADERS pNtHeaders;
@@ -127,10 +115,6 @@ EFI_STATUS BtExecutePeEntryPoint(EFI_SYSTEM_TABLE *SystemTable, EFI_PHYSICAL_ADD
     PIMAGE_DOS_HEADER pDosHeader;
 
     pDosHeader = (PIMAGE_DOS_HEADER)PeAddress;
-
-    Status = SystemTable->ConOut->OutputString(SystemTable->ConOut, L"1\r\n");
-	if (EFI_ERROR(Status))
-	    return Status;
 
     if (pDosHeader->e_magic != IMAGE_DOS_SIGNATURE)
         return 1;
@@ -155,7 +139,7 @@ EFI_STATUS BtExecutePeEntryPoint(EFI_SYSTEM_TABLE *SystemTable, EFI_PHYSICAL_ADD
     return EntryPoint(SystemTable);
 }
 
-EFI_STATUS BtLoadPeFile(EFI_SYSTEM_TABLE *SystemTable, CHAR16* Path)
+EFI_STATUS BtPeLoad(EFI_SYSTEM_TABLE *SystemTable, CHAR16* Path, EFI_PHYSICAL_ADDRESS* PeAddress)
 {
     EFI_STATUS Status = 0;
 
@@ -164,6 +148,7 @@ EFI_STATUS BtLoadPeFile(EFI_SYSTEM_TABLE *SystemTable, CHAR16* Path)
     VOID* FileBuffer = NULL;
     UINTN FileSize = 0;
 
+    // Read PE file into memory from disk
     Status = BtLoadFile(SystemTable, Path, &FileBuffer, &FileSize);
     if (EFI_ERROR(Status))
 	    return Status;
@@ -172,6 +157,7 @@ EFI_STATUS BtLoadPeFile(EFI_SYSTEM_TABLE *SystemTable, CHAR16* Path)
 	if (EFI_ERROR(Status))
 	    return Status;
 
+    // Map PE sections into memory and process relocations
     EFI_PHYSICAL_ADDRESS LoadedPeFile = 0;
     Status = MapPeSections(SystemTable, FileBuffer, &LoadedPeFile);
     if (Status != EFI_SUCCESS)
@@ -181,14 +167,7 @@ EFI_STATUS BtLoadPeFile(EFI_SYSTEM_TABLE *SystemTable, CHAR16* Path)
 	if (EFI_ERROR(Status))
 	    return Status;
 
-    Status = BtExecutePeEntryPoint(SystemTable, LoadedPeFile);
-    if (EFI_ERROR(Status))
-	    return Status;
-
-    Status = SystemTable->ConOut->OutputString(SystemTable->ConOut, L"[+] Finished!\r\n");
-	if (EFI_ERROR(Status))
-	    return Status;
-
+    *PeAddress = LoadedPeFile;
 
     Status = BootServices->FreePool(FileBuffer);
     if (EFI_ERROR(Status))

@@ -395,4 +395,5 @@ typedef struct IMAGE_RELOC
 #define LOBYTE(w)           ((UINT8)(((UINTN)(w)) & 0xff))
 #define HIBYTE(w)           ((UINT8)((((UINTN)(w)) >> 8) & 0xff))
 
-EFI_STATUS BtLoadPeFile(EFI_SYSTEM_TABLE *SystemTable, CHAR16* Path);
+EFI_STATUS BtPeExecuteEntryPoint(EFI_SYSTEM_TABLE *SystemTable, EFI_PHYSICAL_ADDRESS PeAddress);
+EFI_STATUS BtPeLoad(EFI_SYSTEM_TABLE *SystemTable, CHAR16* Path, EFI_PHYSICAL_ADDRESS* PeAddress);
