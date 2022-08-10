@@ -3,22 +3,21 @@
 EFI_STATUS KeMain(SOA_KERNEL_INFORMATION* KernelInfo)
 {
     EFI_STATUS Status = 0;
-    DOE_GFX_BUFFER GfxBuffer;
 
-    GfxBuffer.Framebuffer = KernelInfo->Framebuffer;
-    GfxBuffer.FramebufferSize = KernelInfo->FramebufferSize;
-    GfxBuffer.HorizontalResolution = KernelInfo->GraphicsInfo->HorizontalResolution;
-    GfxBuffer.VerticalResolution = KernelInfo->GraphicsInfo->VerticalResolution;
-    GfxBuffer.PixelFormat = KernelInfo->GraphicsInfo->PixelFormat;
-    GfxBuffer.PixelsPerScanLine = KernelInfo->GraphicsInfo->PixelsPerScanLine;
+    g_ScreenGraphicsBuffer.Framebuffer = KernelInfo->Framebuffer;
+    g_ScreenGraphicsBuffer.FramebufferSize = KernelInfo->FramebufferSize;
+    g_ScreenGraphicsBuffer.HorizontalResolution = KernelInfo->GraphicsInfo->HorizontalResolution;
+    g_ScreenGraphicsBuffer.VerticalResolution = KernelInfo->GraphicsInfo->VerticalResolution;
+    g_ScreenGraphicsBuffer.PixelFormat = KernelInfo->GraphicsInfo->PixelFormat;
+    g_ScreenGraphicsBuffer.PixelsPerScanLine = KernelInfo->GraphicsInfo->PixelsPerScanLine;
 
     //KeBootClearScreen(BootloaderInfo->lpGopInfo, 0xFF0000);
 
-    KeGfxClearScreen(&GfxBuffer, 0x0000FF00);
+    KeGfxClearScreen(&g_ScreenGraphicsBuffer, 0x0000FF00);
 
-    KePanic(&GfxBuffer, 0x1, "Fucked");
+    KePanic(0x1, "Fucked");
 
-    KeGfxClearScreen(&GfxBuffer, 0x000000FF);
+    KeGfxClearScreen(&g_ScreenGraphicsBuffer, 0x000000FF);
 
     for (;;) asm volatile("hlt");
 

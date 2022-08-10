@@ -1,8 +1,8 @@
 #include "kernel/panic.h"
 
-VOID KePanic(DOE_GFX_BUFFER* GfxBuffer, DOE_STATUS StatusCode, BYTE* Message)
+VOID KePanic(DOE_STATUS StatusCode, BYTE* Message)
 {
-    KeGfxClearScreen(GfxBuffer, 0x00FF0000);
+    KeGfxClearScreen(&g_ScreenGraphicsBuffer, 0x00FF0000);
 
     for (;;) KeHalHaltProcessor();
 }

@@ -18,6 +18,8 @@ typedef struct DOE_GFX_BUFFER
     DWORD                       PixelsPerScanLine;
 } DOE_GFX_BUFFER, *PDOE_GFX_BUFFER;
 
+extern DOE_GFX_BUFFER g_ScreenGraphicsBuffer;
+
 DOE_STATUS KeGfxDrawPixel(DOE_GFX_BUFFER* Buffer, SIZE_T x, SIZE_T y, ARGB_COLOR Color);
 
 DOE_STATUS KeGfxClearScreen(DOE_GFX_BUFFER* Buffer, ARGB_COLOR Color);
