@@ -54,15 +54,23 @@ BOOT_OBJS := $(BOOT_SRCS:.c=.o)
 BOOT_DEPS := $(shell find $(INCLUDE)/boot -name '*.h')
 
 KERNEL_SRCS := $(shell find $(SRC)/kernel -name '*.c')
+KERNEL_ASM 	:= $(shell find $(SRC)/kernel -name '*.asm')
+
 KERNEL_OBJS := $(KERNEL_SRCS:.c=.o)
+KERNEL_OBJS += $(KERNEL_ASM:.asm=.o)
+
 KERNEL_DEPS := $(shell find $(INCLUDE)/kernel -name '*.h')
 
-boot/%.o: %.c $(BOOT_DEPS)
+boot/%.o: boot/%.c $(BOOT_DEPS)
 	$(CC) $(CFLAGS) -c -o $@ $^
 
-kernel/%o: %.c $(KERNEL_DEPS)
+kernel/%.o: kernel/%.c $(KERNEL_DEPS)
 	@echo "BBBB"
 	$(CC) $(KERNEL_CFLAGS) -c -o $@ $^
+
+%.o: %.asm
+	@echo "CCCC"
+	nasm -f win64 -o $@ $<
 
 BOOTX64.efi: $(BOOT_OBJS)
 	$(CC) $(BOOT_LDFLAGS) -o $@ $^

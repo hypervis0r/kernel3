@@ -21,6 +21,11 @@ typedef uint64_t SIZE_T;
 
 typedef SIZE_T ULONG_PTR;
 
+#ifdef VOID
+#undef VOID
+#endif
+typedef void VOID;
+
 typedef DWORD DOE_STATUS;
 
 #define DOE_SUCCESS 0
@@ -29,6 +34,8 @@ typedef DWORD DOE_STATUS;
 #include "boot/loader.h"
 
 #include "kernel/graphics/graphics.h"
+
+#include "kernel/arch/amd64/port.h"
 
 //#include "boot/boot.h"
 //#include "boot/graphics.h"
