@@ -9,7 +9,7 @@
             "type": "gdb",
             "request": "attach",
             "name": "Debug",
-            "executable": "${workspaceFolder}/BOOTX64.efi",
+            "executable": "${workspaceFolder}/kernel3.exe",
             "target": "localhost:1234",
             "remote": true,
             "cwd": "${workspaceRoot}",
