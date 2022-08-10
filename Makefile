@@ -90,6 +90,7 @@ kernel3.img: BOOTX64.efi kernel3.exe
 	sudo mkdir ./build_fs/EFI/BOOT
 	sudo cp $< ./build_fs/EFI/BOOT/
 	sudo cp $(word 2,$^) ./build_fs/system
+	sudo cp kernel_tty.psf ./build_fs/system
 	sudo umount -l ./build_fs
 
 all: kernel3.img 

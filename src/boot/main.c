@@ -54,6 +54,13 @@ EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
 	if (EFI_ERROR(Status))
 		return Status;
 
+	VOID* FontBuffer = NULL;
+	UINTN FontBufferSize = 0;
+
+	Status = BtLoadFile(SystemTable, L"\\system\\kernel_tty.psf", &FontBuffer, &FontBufferSize);
+	if (EFI_ERROR(Status))
+		return Status;
+
 	UINTN MemoryMapSize = 0;
 	EFI_MEMORY_DESCRIPTOR* MemoryMap = NULL;
 
@@ -86,6 +93,8 @@ EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
 	KernelInfo.KernelBase = KernelPeAddress;
 	KernelInfo.GraphicsInfo = GopModeInfo;
 	KernelInfo.SystemTable = SystemTable;
+	KernelInfo.FontBuffer = FontBuffer;
+	KernelInfo.FontBufferSize = FontBufferSize;
 
 	Status = BtPeExecuteEntryPoint(SystemTable, KernelPeAddress, &KernelInfo);
 	if (EFI_ERROR(Status))
