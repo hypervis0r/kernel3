@@ -36,6 +36,7 @@ typedef DWORD DOE_STATUS;
 #include "kernel/graphics/graphics.h"
 
 #include "kernel/arch/amd64/port.h"
+#include "kernel/panic.h"
 
 //#include "boot/boot.h"
 //#include "boot/graphics.h"

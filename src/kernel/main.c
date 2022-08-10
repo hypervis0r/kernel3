@@ -16,6 +16,10 @@ EFI_STATUS KeMain(SOA_KERNEL_INFORMATION* KernelInfo)
 
     KeGfxClearScreen(&GfxBuffer, 0x0000FF00);
 
+    KePanic(&GfxBuffer, 0x1, "Fucked");
+
+    KeGfxClearScreen(&GfxBuffer, 0x000000FF);
+
     for (;;) asm volatile("hlt");
 
     return EFI_SUCCESS;
