@@ -13,6 +13,8 @@ typedef int16_t SHORT;
 typedef int32_t LONG;
 typedef int64_t LONGLONG;
 
+typedef BYTE BOOL;
+
 #ifdef __amd64__
 typedef uint64_t SIZE_T;
 #else
@@ -34,6 +36,7 @@ typedef DWORD DOE_STATUS;
 #include "boot/loader.h"
 
 #include "kernel/graphics/graphics.h"
+#include "kernel/graphics/psf_font.h"
 
 #include "kernel/arch/amd64/port.h"
 #include "kernel/panic.h"

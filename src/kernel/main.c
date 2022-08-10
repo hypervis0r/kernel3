@@ -15,9 +15,11 @@ EFI_STATUS KeMain(SOA_KERNEL_INFORMATION* KernelInfo)
 
     KeGfxClearScreen(&g_ScreenGraphicsBuffer, 0x0000FF00);
 
-    KePanic(0x1, "Fucked");
+    DOE_GFX_PSF_FONT GfxFont;
 
-    KeGfxClearScreen(&g_ScreenGraphicsBuffer, 0x000000FF);
+    KeGfxPsfInitializeFont(&GfxFont, KernelInfo->FontBuffer, KernelInfo->FontBufferSize);
+
+    KeGfxPsfPrintGlyph(&GfxFont, 'h', 10, 10, 0xFFFFFFFF, 0xFF0000FF);
 
     for (;;) asm volatile("hlt");
 
