@@ -1,12 +1,17 @@
 #include "kernel/graphics/psf_font.h"
 
-VOID KeGfxPsfInitializeFont(PDOE_GFX_PSF_FONT PsfFont, VOID* FontBuffer, SIZE_T FontBufferSize)
+DOE_STATUS KeGfxPsfInitializeFont(PDOE_GFX_PSF_FONT PsfFont, VOID* FontBuffer, SIZE_T FontBufferSize)
 {
     PsfFont->FontBuffer = FontBuffer;
     PsfFont->FontBufferSize = FontBufferSize;
     PsfFont->IsUnicode = TRUE;
 
+    if (((PSFFontFileHeader*)FontBuffer)->magic != PSF_FONT_MAGIC)
+        return DOE_ERROR;
+
     KeGfxPsfDecodeUnicodeTable(PsfFont);
+
+    return DOE_SUCCESS;
 }
 
 VOID KeGfxPsfDecodeUnicodeTable(PDOE_GFX_PSF_FONT PsfFont)

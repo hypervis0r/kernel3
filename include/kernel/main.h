@@ -33,6 +33,8 @@ typedef DWORD DOE_STATUS;
 #define DOE_SUCCESS 0
 #define DOE_ERROR 1
 
+typedef DWORD ARGB_COLOR;
+
 #include "boot/loader.h"
 
 #include "kernel/graphics/graphics.h"

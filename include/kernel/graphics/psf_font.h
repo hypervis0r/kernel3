@@ -24,7 +24,7 @@ typedef struct DOE_GFX_PSF_FONT
     BOOL IsUnicode;
 } DOE_GFX_PSF_FONT, *PDOE_GFX_PSF_FONT;
 
-VOID KeGfxPsfInitializeFont(PDOE_GFX_PSF_FONT PsfFont, VOID* FontBuffer, SIZE_T FontBufferSize);
+DOE_STATUS KeGfxPsfInitializeFont(PDOE_GFX_PSF_FONT PsfFont, VOID* FontBuffer, SIZE_T FontBufferSize);
 
 VOID KeGfxPsfDecodeUnicodeTable(PDOE_GFX_PSF_FONT PsfFont);
 

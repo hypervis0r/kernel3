@@ -6,8 +6,6 @@
 
 #include "kernel/main.h"
 
-typedef DWORD ARGB_COLOR;
-
 typedef struct DOE_GFX_BUFFER
 {
     EFI_PHYSICAL_ADDRESS        Framebuffer;
@@ -21,5 +19,7 @@ typedef struct DOE_GFX_BUFFER
 extern DOE_GFX_BUFFER g_ScreenGraphicsBuffer;
 
 DOE_STATUS KeGfxDrawPixel(DOE_GFX_BUFFER* Buffer, SIZE_T x, SIZE_T y, ARGB_COLOR Color);
+
+DOE_STATUS KeGfxDrawRect(DOE_GFX_BUFFER* Buffer, SIZE_T x, SIZE_T y, SIZE_T l, SIZE_T w, ARGB_COLOR Color);
 
 DOE_STATUS KeGfxClearScreen(DOE_GFX_BUFFER* Buffer, ARGB_COLOR Color);

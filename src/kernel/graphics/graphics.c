@@ -9,13 +9,24 @@ inline DOE_STATUS KeGfxDrawPixel(DOE_GFX_BUFFER* Buffer, SIZE_T x, SIZE_T y, ARG
     return DOE_SUCCESS;
 }
 
-inline DOE_STATUS KeGfxClearScreen(DOE_GFX_BUFFER* Buffer, ARGB_COLOR Color)
+DOE_STATUS KeGfxDrawRect(DOE_GFX_BUFFER* Buffer, SIZE_T x, SIZE_T y, SIZE_T l, SIZE_T w, ARGB_COLOR Color)
 {
-    for (int y = 0; y < Buffer->VerticalResolution; y++)
+	SIZE_T x2 = 0;
+
+	for (; y < w; y++)
 	{
-		for (int x = 0; x < Buffer->HorizontalResolution; x++)
+		for (x2 = x; x2 < l; x2++)
 		{
-			KeGfxDrawPixel(Buffer, x, y, Color);
+			KeGfxDrawPixel(Buffer, x2, y, Color);
 		}
 	}
+
+	return DOE_SUCCESS;
+}
+
+inline DOE_STATUS KeGfxClearScreen(DOE_GFX_BUFFER* Buffer, ARGB_COLOR Color)
+{
+    KeGfxDrawRect(Buffer, 0, 0, Buffer->HorizontalResolution, Buffer->VerticalResolution, Color);
+
+	return DOE_SUCCESS;
 }
