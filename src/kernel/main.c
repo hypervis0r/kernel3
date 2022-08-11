@@ -18,9 +18,19 @@ EFI_STATUS KeMain(SOA_KERNEL_INFORMATION* KernelInfo)
 
     //KeBootClearScreen(BootloaderInfo->lpGopInfo, 0xFF0000);
 
-    KeGfxDrawRect(&g_ScreenGraphicsBuffer, 0, 0, 500, 400, 0x0000FF00);
+    ARGB_COLOR col = 0x0000FF00;
+    KeGfxClearScreen(&g_ScreenGraphicsBuffer, 0x00FF0000);
 
-    KeGfxDrawRect(&g_ScreenGraphicsBuffer, 0, 0, 5000, 400, 0x000000FF);
+    for (SIZE_T c = 0; c < g_ScreenGraphicsBuffer.HorizontalResolution && c < g_ScreenGraphicsBuffer.VerticalResolution; c++)
+    {
+        if (KeGfxDrawRect(&g_ScreenGraphicsBuffer, c, c, 50, 50, col++) != DOE_SUCCESS)
+        {
+            //KeGfxClearScreen(&g_ScreenGraphicsBuffer, 0x000000FF);
+            break;
+        }
+    }
+
+    //KeGfxClearScreen(&g_ScreenGraphicsBuffer, 0x000000FF);
 
     // DOE_GFX_PSF_FONT GfxFont;
 

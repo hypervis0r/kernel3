@@ -16,16 +16,15 @@ inline DOE_STATUS KeGfxDrawPixel(DOE_GFX_BUFFER* Buffer, SIZE_T x, SIZE_T y, ARG
 DOE_STATUS KeGfxDrawRect(DOE_GFX_BUFFER* Buffer, SIZE_T x, SIZE_T y, SIZE_T l, SIZE_T w, ARGB_COLOR Color)
 {
 	SIZE_T x2 = 0;
+	SIZE_T w_Corner = w + y;
+	SIZE_T l_Corner = x + l;
 
-	if (x + l > Buffer->HorizontalResolution || 
-		y + w > Buffer->VerticalResolution)
-		return DOE_ERROR;
-
-	for (; y < w; y++)
+	for (; y < w_Corner; y++)
 	{
-		for (x2 = x; x2 < l; x2++)
+		for (x2 = x; x2 < l_Corner; x2++)
 		{
-			KeGfxDrawPixel(Buffer, x2, y, Color);
+			if (KeGfxDrawPixel(Buffer, x2, y, Color) != DOE_SUCCESS)
+				return DOE_ERROR;
 		}
 	}
 
