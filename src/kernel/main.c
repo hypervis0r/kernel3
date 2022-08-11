@@ -20,6 +20,8 @@ EFI_STATUS KeMain(SOA_KERNEL_INFORMATION* KernelInfo)
 
     KeGfxDrawRect(&g_ScreenGraphicsBuffer, 0, 0, 500, 400, 0x0000FF00);
 
+    KeGfxDrawRect(&g_ScreenGraphicsBuffer, 0, 0, 5000, 400, 0x000000FF);
+
     // DOE_GFX_PSF_FONT GfxFont;
 
     // Status = KeGfxPsfInitializeFont(&GfxFont, KernelInfo->FontBuffer, KernelInfo->FontBufferSize);

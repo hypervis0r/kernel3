@@ -4,7 +4,11 @@ DOE_GFX_BUFFER g_ScreenGraphicsBuffer;
 
 inline DOE_STATUS KeGfxDrawPixel(DOE_GFX_BUFFER* Buffer, SIZE_T x, SIZE_T y, ARGB_COLOR Color)
 {
-    *((UINT32*)(Buffer->Framebuffer + 4 * Buffer->PixelsPerScanLine * y + 4 * x)) = Color;
+    if (x > Buffer->HorizontalResolution ||
+		y > Buffer->VerticalResolution)
+		return DOE_ERROR;
+	
+	*((UINT32*)(Buffer->Framebuffer + 4 * Buffer->PixelsPerScanLine * y + 4 * x)) = Color;
 
     return DOE_SUCCESS;
 }
@@ -12,6 +16,10 @@ inline DOE_STATUS KeGfxDrawPixel(DOE_GFX_BUFFER* Buffer, SIZE_T x, SIZE_T y, ARG
 DOE_STATUS KeGfxDrawRect(DOE_GFX_BUFFER* Buffer, SIZE_T x, SIZE_T y, SIZE_T l, SIZE_T w, ARGB_COLOR Color)
 {
 	SIZE_T x2 = 0;
+
+	if (x + l > Buffer->HorizontalResolution || 
+		y + w > Buffer->VerticalResolution)
+		return DOE_ERROR;
 
 	for (; y < w; y++)
 	{
