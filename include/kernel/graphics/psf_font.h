@@ -14,7 +14,7 @@ typedef struct {
     DWORD bytesperglyph; /* size of each glyph */
     DWORD height;        /* height in pixels */
     DWORD width;         /* width in pixels */
-} PSFFontFileHeader;
+} PSFv2FontFileHeader;
 
 typedef struct DOE_GFX_PSF_FONT
 {

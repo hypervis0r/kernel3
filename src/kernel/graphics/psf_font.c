@@ -6,7 +6,7 @@ DOE_STATUS KeGfxPsfInitializeFont(PDOE_GFX_PSF_FONT PsfFont, VOID* FontBuffer, S
     PsfFont->FontBufferSize = FontBufferSize;
     PsfFont->IsUnicode = TRUE;
 
-    if (((PSFFontFileHeader*)FontBuffer)->magic != PSF_FONT_MAGIC)
+    if (((PSFv2FontFileHeader*)FontBuffer)->magic != PSF_FONT_MAGIC)
         return DOE_ERROR;
 
     KeGfxPsfDecodeUnicodeTable(PsfFont);
@@ -18,7 +18,7 @@ VOID KeGfxPsfDecodeUnicodeTable(PDOE_GFX_PSF_FONT PsfFont)
 {
     uint16_t glyph = 0;
     /* cast the address to PSF header struct */
-    PSFFontFileHeader *font = (PSFFontFileHeader*)PsfFont->FontBuffer;
+    PSFv2FontFileHeader *font = (PSFv2FontFileHeader*)PsfFont->FontBuffer;
     /* is there a unicode table? */
     if (font->flags) {
         PsfFont->IsUnicode = FALSE;
@@ -66,7 +66,7 @@ VOID KeGfxPsfPrintGlyph(PDOE_GFX_PSF_FONT PsfFont, WORD c, DWORD cx, DWORD cy, A
     DWORD dwBytesPerScanLine = g_ScreenGraphicsBuffer.PixelsPerScanLine * sizeof(ARGB_COLOR);
 
     /* cast the address to PSF header struct */
-    PSFFontFileHeader *font = (PSFFontFileHeader*)PsfFont->FontBuffer;
+    PSFv2FontFileHeader *font = (PSFv2FontFileHeader*)PsfFont->FontBuffer;
     /* we need to know how many bytes encode one row */
     int bytesperline = (font->width + 7) / 8;
     /* unicode translation */
