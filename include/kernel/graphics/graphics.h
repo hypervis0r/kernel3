@@ -5,6 +5,7 @@
 #include <Protocol/GraphicsOutput.h>
 
 #include "kernel/main.h"
+#include "kernel/graphics/psf_font.h"
 
 typedef struct DOE_GFX_BUFFER
 {

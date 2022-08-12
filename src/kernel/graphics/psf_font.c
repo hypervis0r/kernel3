@@ -1,5 +1,7 @@
 #include "kernel/graphics/psf_font.h"
 
+DOE_GFX_PSF_FONT g_LoadedPsfFont;
+
 DOE_STATUS KeGfxPsfInitializeFont(PDOE_GFX_PSF_FONT PsfFont, VOID* FontBuffer, SIZE_T FontBufferSize)
 {
     PsfFont->FontBuffer = FontBuffer;

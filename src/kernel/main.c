@@ -20,16 +20,14 @@ EFI_STATUS KeMain(SOA_KERNEL_INFORMATION* KernelInfo)
 
     KeGfxClearScreen(&g_ScreenGraphicsBuffer, 0x0000FF00);
 
-    DOE_GFX_PSF_FONT GfxFont;
-
-    Status = KeGfxPsfInitializeFont(&GfxFont, KernelInfo->FontBuffer, KernelInfo->FontBufferSize);
+    Status = KeGfxPsfInitializeFont(&g_LoadedPsfFont, KernelInfo->FontBuffer, KernelInfo->FontBufferSize);
     if (Status != DOE_SUCCESS)
         KePanic(Status, "Failed to initialize PSF font");
 
     char x = 0;
     char y = 0;
 
-    char maxX = g_ScreenGraphicsBuffer.HorizontalResolution / GfxFont.FontInfo.width;
+    char maxX = g_ScreenGraphicsBuffer.HorizontalResolution / g_LoadedPsfFont.FontInfo.width;
 
     for (unsigned char c = 0; c < 255; c++)
     {
@@ -39,14 +37,14 @@ EFI_STATUS KeMain(SOA_KERNEL_INFORMATION* KernelInfo)
             ++y;
         }
 
-        KeGfxPsfPrintGlyph(&GfxFont, c, x++, y, 0xFFFFFFFF, 0xFF0000FF);
+        KeGfxPsfPrintGlyph(&g_LoadedPsfFont, c, x++, y, 0xFFFFFFFF, 0xFF0000FF);
     }
 
-    KeGfxPsfPrintGlyph(&GfxFont, 'H', 10, 10, 0xFFFFFFFF, 0xFF0000FF);
-    KeGfxPsfPrintGlyph(&GfxFont, 'E', 11, 10, 0xFFFFFFFF, 0xFF0000FF);
-    KeGfxPsfPrintGlyph(&GfxFont, 'L', 12, 10, 0xFFFFFFFF, 0xFF0000FF);
-    KeGfxPsfPrintGlyph(&GfxFont, 'L', 13, 10, 0xFFFFFFFF, 0xFF0000FF);
-    KeGfxPsfPrintGlyph(&GfxFont, 'O', 14, 10, 0xFFFFFFFF, 0xFF0000FF);
+    KeGfxPsfPrintGlyph(&g_LoadedPsfFont, 'H', 10, 10, 0xFFFFFFFF, 0xFF0000FF);
+    KeGfxPsfPrintGlyph(&g_LoadedPsfFont, 'E', 11, 10, 0xFFFFFFFF, 0xFF0000FF);
+    KeGfxPsfPrintGlyph(&g_LoadedPsfFont, 'L', 12, 10, 0xFFFFFFFF, 0xFF0000FF);
+    KeGfxPsfPrintGlyph(&g_LoadedPsfFont, 'L', 13, 10, 0xFFFFFFFF, 0xFF0000FF);
+    KeGfxPsfPrintGlyph(&g_LoadedPsfFont, 'O', 14, 10, 0xFFFFFFFF, 0xFF0000FF);
 
     for (;;) asm volatile("hlt");
 
