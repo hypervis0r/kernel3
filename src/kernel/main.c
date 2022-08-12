@@ -43,7 +43,7 @@ EFI_STATUS KeMain(SOA_KERNEL_INFORMATION* KernelInfo)
     }
 
     KeGfxPsfPrintGlyph(&GfxFont, 'H', 10, 10, 0xFFFFFFFF, 0xFF0000FF);
-    KeGfxPsfPrintGlyph(&GfxFont, 'e', 11, 10, 0xFFFFFFFF, 0xFF0000FF);
+    KeGfxPsfPrintGlyph(&GfxFont, 'E', 11, 10, 0xFFFFFFFF, 0xFF0000FF);
     KeGfxPsfPrintGlyph(&GfxFont, 'L', 12, 10, 0xFFFFFFFF, 0xFF0000FF);
     KeGfxPsfPrintGlyph(&GfxFont, 'L', 13, 10, 0xFFFFFFFF, 0xFF0000FF);
     KeGfxPsfPrintGlyph(&GfxFont, 'O', 14, 10, 0xFFFFFFFF, 0xFF0000FF);

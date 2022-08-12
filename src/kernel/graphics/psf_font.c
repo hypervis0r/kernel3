@@ -10,7 +10,7 @@ DOE_STATUS KeGfxPsfInitializeFont(PDOE_GFX_PSF_FONT PsfFont, VOID* FontBuffer, S
     {
         PSFv1FontFileHeader* tmp = (PSFv1FontFileHeader*)FontBuffer;
 
-        PsfFont->FontInfo.headersize = sizeof(tmp);
+        PsfFont->FontInfo.headersize = sizeof(PSFv1FontFileHeader);
         
         if (tmp->mode & PSF1_MODE512)
 		    PsfFont->FontInfo.numglyph = 512;
