@@ -125,7 +125,7 @@ VOID KeGfxPsfPrintGlyph(PDOE_GFX_PSF_FONT PsfFont, WORD c, DWORD cx, DWORD cy, A
     {
         /* save the starting position of the line */
         line=offs;
-        mask=1<<(font->width);
+        mask=1<<(font->width - 1);
         /* display a row */
         for( x=0; x < font->width; x++)
         {
