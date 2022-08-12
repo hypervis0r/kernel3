@@ -24,27 +24,14 @@ EFI_STATUS KeMain(SOA_KERNEL_INFORMATION* KernelInfo)
     if (Status != DOE_SUCCESS)
         KePanic(Status, "Failed to initialize PSF font");
 
-    char x = 0;
-    char y = 0;
+    DOE_TTY Tty;
 
-    char maxX = g_ScreenGraphicsBuffer.HorizontalResolution / g_LoadedPsfFont.FontInfo.width;
+    KeTermInitialize(&Tty, &g_ScreenGraphicsBuffer, &g_LoadedPsfFont);
 
-    for (unsigned char c = 0; c < 255; c++)
+    for (BYTE c = 0; c < 255; c++)
     {
-        if (x >= maxX)
-        {
-            x = 0;
-            ++y;
-        }
-
-        KeGfxPsfPrintGlyph(&g_LoadedPsfFont, c, x++, y, 0xFFFFFFFF, 0xFF0000FF);
+        KeTermPutChar(&Tty, c, 0xFFFFFFFF, 0xFF0000FF);
     }
-
-    KeGfxPsfPrintGlyph(&g_LoadedPsfFont, 'H', 10, 10, 0xFFFFFFFF, 0xFF0000FF);
-    KeGfxPsfPrintGlyph(&g_LoadedPsfFont, 'E', 11, 10, 0xFFFFFFFF, 0xFF0000FF);
-    KeGfxPsfPrintGlyph(&g_LoadedPsfFont, 'L', 12, 10, 0xFFFFFFFF, 0xFF0000FF);
-    KeGfxPsfPrintGlyph(&g_LoadedPsfFont, 'L', 13, 10, 0xFFFFFFFF, 0xFF0000FF);
-    KeGfxPsfPrintGlyph(&g_LoadedPsfFont, 'O', 14, 10, 0xFFFFFFFF, 0xFF0000FF);
 
     for (;;) asm volatile("hlt");
 

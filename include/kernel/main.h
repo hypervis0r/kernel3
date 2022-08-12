@@ -40,6 +40,8 @@ typedef DWORD ARGB_COLOR;
 #include "kernel/graphics/graphics.h"
 #include "kernel/graphics/psf_font.h"
 
+#include "kernel/tty.h"
+
 #include "kernel/arch/amd64/port.h"
 #include "kernel/panic.h"
 
