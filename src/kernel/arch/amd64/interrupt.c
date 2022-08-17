@@ -17,11 +17,11 @@ struct interrupt_frame
 INTERRUPT_HANDLER
 void interrupt_handler(struct interrupt_frame *frame)
 {
-    KeHal8259SendEoi(1);
-
     unsigned char scan_code = KeHalPortRead(0x60);
 
     KeGfxClearScreen(&g_ScreenGraphicsBuffer, 0xFFFF0000);
+
+    KeHal8259SendEoi(1);
 }
 
 VOID KeHalGateDescriptorInitialize(PHAL_AMD64_GATE_DESCRIPTOR Desc, ULONG_PTR Target, BYTE Attributes)

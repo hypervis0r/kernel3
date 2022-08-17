@@ -26,7 +26,6 @@ VOID KeHal8259Remap(DWORD MasterOffset, DWORD SlaveOffset)
  
 	KeHalPortWrite(PIC1_DATA_PORT, ICW4_8086);
 	KeHalPortWrite(PIC2_DATA_PORT, ICW4_8086);
-
  
 	KeHalPortWrite(PIC1_DATA_PORT, mask1);   // restore saved masks.
 	KeHalPortWrite(PIC2_DATA_PORT, mask2);
