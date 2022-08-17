@@ -18,15 +18,13 @@ EFI_STATUS KeMain(SOA_KERNEL_INFORMATION* KernelInfo)
 
     KeHalGdtInitialize();
 
-    // KeHalDisableInterrupts();
+    KeHalDisableInterrupts();
 
-    // KeHalIdtInitialize();
+    KeHalIdtInitialize();
 
-    // KeHalIrqClearMask(1);
+    KeHalIrqClearMask(1);
 
-    // KeHalEnableInterrupts();
-
-    // KeHalTriggerSoftwareInterrupt();
+    KeHalEnableInterrupts();
 
     //KeBootClearScreen(BootloaderInfo->lpGopInfo, 0xFF0000);
 
@@ -44,6 +42,8 @@ EFI_STATUS KeMain(SOA_KERNEL_INFORMATION* KernelInfo)
     {
         KeTermPutChar(&Tty, c, 0xFFFFFFFF, 0xFF0000FF);
     }
+
+    //KeHalTriggerSoftwareInterrupt();
 
     for (;;) asm volatile("hlt");
 
