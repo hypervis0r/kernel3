@@ -36,4 +36,16 @@ typedef DWORD DOE_STATUS;
 
 typedef DWORD ARGB_COLOR;
 
+#ifdef __GNUC__
+
+#ifdef PACKED
+#undef PACKED
+#endif
+#define PACKED __attribute__((packed))
+#define INTERRUPT_HANDLER __attribute__((interrupt))
+
+#else
+#error "Unsupported compiler, see kernel/doedef.h for things that need definitions"
+#endif
+
 #endif

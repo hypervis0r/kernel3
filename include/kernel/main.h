@@ -9,6 +9,7 @@
 
 #include "kernel/arch/amd64/port.h"
 #include "kernel/arch/amd64/i8259.h"
+#include "kernel/arch/amd64/interrupt.h"
 
 #include "kernel/panic.h"
 

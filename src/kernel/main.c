@@ -16,8 +16,16 @@ EFI_STATUS KeMain(SOA_KERNEL_INFORMATION* KernelInfo)
     g_ScreenGraphicsBuffer.PixelFormat = KernelInfo->GraphicsInfo->PixelFormat;
     g_ScreenGraphicsBuffer.PixelsPerScanLine = KernelInfo->GraphicsInfo->PixelsPerScanLine;
 
+    KeHalDisableInterrupts();
+
     KeHal8259Remap(0x20, 0x28);
     KeHalIrqMaskAllLines();
+
+    KeHalIdtInitialize();
+
+    KeHalEnableInterrupts();
+
+    KeHalIrqSetMask(1);
 
     //KeBootClearScreen(BootloaderInfo->lpGopInfo, 0xFF0000);
 
