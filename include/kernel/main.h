@@ -8,6 +8,8 @@
 #include "kernel/tty.h"
 
 #include "kernel/arch/amd64/port.h"
+#include "kernel/arch/amd64/i8259.h"
+
 #include "kernel/panic.h"
 
 // Lets keep this at the bottom for now
