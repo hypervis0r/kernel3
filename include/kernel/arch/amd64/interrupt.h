@@ -12,7 +12,7 @@ typedef struct PACKED HAL_AMD64_IDT_REGISTER
     ULONG_PTR BaseAddress;
 } HAL_AMD64_IDT_REGISTER;
 
-typedef struct HAL_AMD64_GATE_DESCRIPTOR {
+typedef struct PACKED HAL_AMD64_GATE_DESCRIPTOR {
    WORD Offset_1;       // offset bits 0..15
    WORD Selector;       // a code segment selector in GDT or LDT
    BYTE  IST;           // bits 0..2 holds Interrupt Stack Table offset, rest of bits zero.
@@ -36,3 +36,5 @@ VOID KeHalIdtLoad(HAL_AMD64_IDT_REGISTER* Idtr);
 
 VOID KeHalDisableInterrupts();
 VOID KeHalEnableInterrupts();
+
+VOID KeHalTriggerSoftwareInterrupt();

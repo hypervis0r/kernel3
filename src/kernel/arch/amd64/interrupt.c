@@ -2,8 +2,8 @@
 
 #include "kernel/graphics/graphics.h"
 
-static HAL_AMD64_IDT_REGISTER g_IDTR;
-static HAL_AMD64_GATE_DESCRIPTOR g_IDT[IDT_MAX_DESCRIPTORS];
+HAL_AMD64_IDT_REGISTER g_IDTR;
+HAL_AMD64_GATE_DESCRIPTOR g_IDT[IDT_MAX_DESCRIPTORS];
 
 struct interrupt_frame
 {
@@ -17,11 +17,11 @@ struct interrupt_frame
 INTERRUPT_HANDLER
 void interrupt_handler(struct interrupt_frame *frame)
 {
+    KeHal8259SendEoi(1);
+
     unsigned char scan_code = KeHalPortRead(0x60);
 
     KeGfxClearScreen(&g_ScreenGraphicsBuffer, 0xFFFF0000);
-
-    KeHal8259SendEoi(1);
 }
 
 VOID KeHalGateDescriptorInitialize(PHAL_AMD64_GATE_DESCRIPTOR Desc, ULONG_PTR Target, BYTE Attributes)
@@ -40,7 +40,10 @@ VOID KeHalIdtInitialize()
     g_IDTR.BaseAddress = (ULONG_PTR)&g_IDT[0];
     g_IDTR.Limit = sizeof(HAL_AMD64_GATE_DESCRIPTOR) * IDT_MAX_DESCRIPTORS - 1;
 
-    KeHalGateDescriptorInitialize(&g_IDT[0x20], (ULONG_PTR)interrupt_handler, INTERRUPT_GATE_ATTRIB);
+    KeHalGateDescriptorInitialize(&g_IDT[0x21], (ULONG_PTR)interrupt_handler, INTERRUPT_GATE_ATTRIB);
 
-    KeHalIdtLoad(&g_IDTR);
+    KeHal8259Remap(0x20, 0x28);
+    KeHalIrqMaskAllLines();
+
+    __asm__ volatile ("lidt %0" : : "m"(g_IDTR)); // load the new IDT
 }

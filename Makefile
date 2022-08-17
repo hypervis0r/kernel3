@@ -1,7 +1,7 @@
 OVMF_DIR := /usr/share/OVMF
 
 VM 	:= qemu-system-x86_64
-VMFLAGS := -smp 1 -bios $(OVMF_DIR)/OVMF_CODE.fd -s # -pflash $(OVMF_DIR)/OVMF_CODE.fd
+VMFLAGS := -smp 1 -bios $(OVMF_DIR)/OVMF_CODE.fd -s -d cpu_reset# -pflash $(OVMF_DIR)/OVMF_CODE.fd
 
 BIN 	:= ./bin
 BUILD 	:= ./build
@@ -28,7 +28,7 @@ KERNEL_CFLAGS := -target x86_64-unknown-windows-gnu \
 		-fno-stack-protector \
 		-fno-stack-check \
 		-fshort-wchar \
-		-mno-red-zone -maccumulate-outgoing-args \
+		-mno-red-zone -maccumulate-outgoing-args -mgeneral-regs-only \
 		-I$(INCLUDE) -I$(EDK2_INCLUDE) -I$(EDK2_INCLUDE_ARCH) \
 		-g \
 		-O0

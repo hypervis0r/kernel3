@@ -1,6 +1,7 @@
 global KeHalIdtLoad
 global KeHalDisableInterrupts
 global KeHalEnableInterrupts
+global KeHalTriggerSoftwareInterrupt
 
 section .data
 
@@ -16,4 +17,8 @@ KeHalDisableInterrupts:
 
 KeHalEnableInterrupts:
     sti
+    ret
+
+KeHalTriggerSoftwareInterrupt:
+    int 21h
     ret
