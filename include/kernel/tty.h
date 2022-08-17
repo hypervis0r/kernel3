@@ -14,11 +14,11 @@ typedef struct DOE_TTY
     SIZE_T CurrentX;
     SIZE_T CurrentY;
 
-    PDOE_GFX_PSF_FONT Font;
-    PDOE_GFX_BUFFER GfxBuffer;
+    struct DOE_GFX_PSF_FONT* Font;
+    struct DOE_GFX_BUFFER* GfxBuffer;
 } DOE_TTY, *PDOE_TTY;
 
-DOE_STATUS KeTermInitialize(PDOE_TTY Tty, PDOE_GFX_BUFFER GfxBuffer, PDOE_GFX_PSF_FONT Font);
+DOE_STATUS KeTermInitialize(PDOE_TTY Tty, struct DOE_GFX_BUFFER* GfxBuffer, struct DOE_GFX_PSF_FONT* Font);
 
 DOE_STATUS KeTermPutChar(PDOE_TTY Tty, BYTE c, ARGB_COLOR fg, ARGB_COLOR bg);
 
