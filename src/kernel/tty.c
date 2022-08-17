@@ -6,6 +6,7 @@ DOE_STATUS KeTermInitialize(PDOE_TTY Tty, PDOE_GFX_BUFFER GfxBuffer, PDOE_GFX_PS
     Tty->MaxFramebufferLineCount = GfxBuffer->VerticalResolution / Font->FontInfo.height;
 
     Tty->BufferSize = sizeof(Tty->Buffer);
+    Tty->BufferCount = 0;
 
     Tty->CurrentX = 0;
     Tty->CurrentY = 0;
@@ -23,6 +24,13 @@ DOE_STATUS KeTermPutChar(PDOE_TTY Tty, BYTE c, ARGB_COLOR fg, ARGB_COLOR bg)
         Tty->CurrentY += 1;
         Tty->CurrentX = 0;
     }
+
+    // TODO: Maybe this buffer business should be handled in a
+    //       separate function...
+    if (Tty->BufferCount + 1 >= Tty->BufferSize)
+        return DOE_ERROR;
+
+    Tty->Buffer[Tty->BufferCount++] = c;
 
     KeGfxPsfPrintGlyph(Tty->Font, c, Tty->CurrentX++, Tty->CurrentY, fg, bg);
 

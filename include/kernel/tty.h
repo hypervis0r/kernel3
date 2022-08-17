@@ -11,6 +11,7 @@ typedef struct DOE_TTY
     SIZE_T MaxFramebufferLineCount;
     BYTE Buffer[4000];
     SIZE_T BufferSize;
+    SIZE_T BufferCount;
     SIZE_T CurrentX;
     SIZE_T CurrentY;
 
