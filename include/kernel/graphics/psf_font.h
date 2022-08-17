@@ -1,6 +1,6 @@
 #pragma once
 
-#include "kernel/main.h"
+#include "kernel/doedef.h"
 #include "kernel/graphics/graphics.h"
 
 #define PSF1_FONT_MAGIC     0x0436

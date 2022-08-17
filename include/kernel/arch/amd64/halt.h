@@ -1,5 +1,5 @@
 #pragma once
 
-#include "kernel/main.h"
+#include "kernel/doedef.h"
 
 VOID KeHalHaltProcessor(VOID);
