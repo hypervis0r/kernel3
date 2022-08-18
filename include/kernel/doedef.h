@@ -1,7 +1,6 @@
 #ifndef _KERNEL_DOEDEF_H
 #define _KERNEL_DOEDEF_H
 
-#include <Uefi.h>
 #include <stdint.h>
 
 typedef uint8_t  BYTE;
@@ -14,7 +13,19 @@ typedef int16_t SHORT;
 typedef int32_t LONG;
 typedef int64_t LONGLONG;
 
-typedef BYTE BOOL;
+// We use fast32 for performance reasons, platforms could upgrade
+// to 64 for performance gain
+typedef int_fast32_t BOOL;
+
+#ifdef TRUE
+#undef TRUE
+#endif
+#define TRUE 1
+
+#ifdef FALSE
+#undef FALSE
+#endif
+#define FALSE 0
 
 #ifdef __amd64__
 typedef uint64_t SIZE_T;
@@ -42,7 +53,9 @@ typedef DWORD ARGB_COLOR;
 #undef PACKED
 #endif
 #define PACKED __attribute__((packed))
+
 #define INTERRUPT_HANDLER __attribute__((interrupt))
+#define INLINE inline
 
 #else
 #error "Unsupported compiler, see kernel/doedef.h for things that need definitions"
