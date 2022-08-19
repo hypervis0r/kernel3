@@ -97,7 +97,7 @@ all: kernel3.img
 	@echo "[+] kernel3.img built"
 
 clean:
-	rm -rf $(BOOT_OBJS) $(KERNEL_OBJS) kernel3.img BOOTX64.efi
+	rm -rf $(BOOT_OBJS) $(KERNEL_OBJS) kernel3.img BOOTX64.efi kernel3.exe BOOTX64.pdb
 
 run: all
 	$(VM) $(VMFLAGS) -hda kernel3.img

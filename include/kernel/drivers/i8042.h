@@ -1,3 +1,7 @@
+/*
+    PS/2 Keyboard Controller / Intel 8259
+*/
+
 #pragma once
 
 #include "kernel/doedef.h"

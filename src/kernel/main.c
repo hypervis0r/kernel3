@@ -20,6 +20,8 @@ EFI_STATUS KeMain(SOA_KERNEL_INFORMATION* KernelInfo)
 
     KeHalDisableInterrupts();
 
+    
+
     //KeBootClearScreen(BootloaderInfo->lpGopInfo, 0xFF0000);
 
     KeGfxClearScreen(&g_ScreenGraphicsBuffer, 0x0000FF00);
@@ -37,16 +39,27 @@ EFI_STATUS KeMain(SOA_KERNEL_INFORMATION* KernelInfo)
         KeTermPutChar(&Tty, c, 0xFFFFFFFF, 0xFF0000FF);
     }
 
-    if (Drv8042Initialize() != DOE_SUCCESS)
-    {
-        KeGfxClearScreen(&g_ScreenGraphicsBuffer, 0x000000FF);
-    }
+    //
+
+    // if (Drv8042Initialize() != DOE_SUCCESS)
+    // {
+    //     KeGfxClearScreen(&g_ScreenGraphicsBuffer, 0x000000FF);
+    // }
+
+    Drv8253Initialize();
 
     KeHalIdtInitialize();
 
-    KeHalIrqClearMask(1);
+    //KeHalIrqClearMask(0);
+    //KeHalIrqClearMask(1);
+
+    //KeGfxClearScreen(&g_ScreenGraphicsBuffer, 0x000000FF);
 
     KeHalEnableInterrupts();
+
+    //KeHalTriggerSoftwareInterrupt();
+
+    
 
     //KeHalTriggerSoftwareInterrupt();
 

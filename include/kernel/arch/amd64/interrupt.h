@@ -22,6 +22,15 @@ typedef struct PACKED HAL_AMD64_GATE_DESCRIPTOR {
    DWORD Reserved;      // reserved, must be set to zero
 } HAL_AMD64_GATE_DESCRIPTOR, *PHAL_AMD64_GATE_DESCRIPTOR;
 
+typedef struct HAL_AMD64_INTERRUPT_FRAME
+{
+    SIZE_T ip;
+    SIZE_T cs;
+    SIZE_T flags;
+    SIZE_T sp;
+    SIZE_T ss;
+} HAL_AMD64_INTERRUPT_FRAME, *PHAL_AMD64_INTERRUPT_FRAME;
+
 #define INTERRUPT_GATE_ATTRIB   0x8E // (p=1, dpl=0b00, type=0b1110 => INTERRUPT_DESCRIPTOR->Attributes=0b1000_1110 = 0x8E)
 #define TRAP_GATE_ATTRIB        0x8F // (p=1, dpl=0b00, type=0b1111 => INTERRUPT_DESCRIPTOR->Attributes=0b1000_1111b = 0x8F)
 

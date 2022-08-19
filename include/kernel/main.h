@@ -11,7 +11,8 @@
 #include "kernel/arch/amd64/i8259.h"
 #include "kernel/arch/amd64/interrupt.h"
 
-#include "kernel/drivers/i8042.h"
+#include "kernel/drivers/i8042.h" // PS/2 Keyboard Controller
+#include "kernel/drivers/i8253.h" // PIT
 
 #include "kernel/panic.h"
 
