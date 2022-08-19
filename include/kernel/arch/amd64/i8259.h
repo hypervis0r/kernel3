@@ -32,7 +32,7 @@
 
 VOID KeHal8259SendEoi(BYTE irq);
 
-VOID KeHal8259Remap(DWORD MasterOffset, DWORD SlaveOffset);
+VOID KeHal8259Remap(BYTE MasterOffset, BYTE SlaveOffset);
 
 VOID KeHalIrqMaskAllLines();
 

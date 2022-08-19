@@ -14,7 +14,7 @@ static inline VOID KeHalIoWait(VOID)
     KeHalPortWrite(0x80, 0);
 }
 
-VOID KeHal8259Remap(DWORD MasterOffset, DWORD SlaveOffset)
+VOID KeHal8259Remap(BYTE MasterOffset, BYTE SlaveOffset)
 {
     BYTE mask1, mask2;
 
@@ -47,7 +47,7 @@ VOID KeHal8259Remap(DWORD MasterOffset, DWORD SlaveOffset)
 
 VOID KeHalIrqMaskAllLines()
 {
-    KeHalPortWrite(PIC1_DATA_PORT, 0xFE);
+    KeHalPortWrite(PIC1_DATA_PORT, 0xFD);
     KeHalPortWrite(PIC2_DATA_PORT, 0xFF);
 }
 

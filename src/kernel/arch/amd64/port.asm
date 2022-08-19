@@ -6,12 +6,12 @@ section .data
 section .text
 
 KeHalPortRead:
-    mov rdx, rdi
-    in ax, dx
+    mov edx, ecx
+    in al, dx
     ret
 
 KeHalPortWrite:
-    mov rdx, rdi
-    mov rax, rsi
-    out dx, ax
+    mov eax, edx
+    mov edx, ecx
+    out dx, al
     ret

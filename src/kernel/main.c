@@ -46,7 +46,7 @@ EFI_STATUS KeMain(SOA_KERNEL_INFORMATION* KernelInfo)
     //     KeGfxClearScreen(&g_ScreenGraphicsBuffer, 0x000000FF);
     // }
 
-    Drv8253Initialize();
+    //Drv8253Initialize();
 
     KeHalIdtInitialize();
 
