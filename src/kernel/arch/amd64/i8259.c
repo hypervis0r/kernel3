@@ -18,8 +18,8 @@ VOID KeHal8259Remap(BYTE MasterOffset, BYTE SlaveOffset)
 {
     BYTE mask1, mask2;
 
-    //mask1 = KeHalPortRead(PIC1_DATA_PORT);
-    //mask2 = KeHalPortRead(PIC2_DATA_PORT);
+    mask1 = KeHalPortRead(PIC1_DATA_PORT);
+    mask2 = KeHalPortRead(PIC2_DATA_PORT);
 
     KeHalPortWrite(PIC1_COMMAND_PORT, ICW1_INIT | ICW1_ICW4);  // starts the initialization sequence (in cascade mode)
     KeHalIoWait();
@@ -41,13 +41,13 @@ VOID KeHal8259Remap(BYTE MasterOffset, BYTE SlaveOffset)
     KeHalPortWrite(PIC2_DATA_PORT, ICW4_8086);
     KeHalIoWait();
 
-	//KeHalPortWrite(PIC1_DATA_PORT, mask1);   // restore saved masks.
-	//KeHalPortWrite(PIC2_DATA_PORT, mask2);
+	KeHalPortWrite(PIC1_DATA_PORT, mask1);   // restore saved masks.
+	KeHalPortWrite(PIC2_DATA_PORT, mask2);
 }
 
 VOID KeHalIrqMaskAllLines()
 {
-    KeHalPortWrite(PIC1_DATA_PORT, 0xFD);
+    KeHalPortWrite(PIC1_DATA_PORT, 0xFF);
     KeHalPortWrite(PIC2_DATA_PORT, 0xFF);
 }
 

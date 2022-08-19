@@ -51,7 +51,7 @@ EFI_STATUS KeMain(SOA_KERNEL_INFORMATION* KernelInfo)
     KeHalIdtInitialize();
 
     //KeHalIrqClearMask(0);
-    //KeHalIrqClearMask(1);
+    KeHalIrqClearMask(1);
 
     //KeGfxClearScreen(&g_ScreenGraphicsBuffer, 0x000000FF);
 
