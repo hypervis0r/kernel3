@@ -26,7 +26,6 @@ INTERRUPT_HANDLER
 VOID Drv8253IrqHandler(struct HAL_AMD64_INTERRUPT_FRAME* Frame)
 {
     ++g_TicksPassedSinceBoot;
-    KeGfxClearScreen(&g_ScreenGraphicsBuffer, g_TicksPassedSinceBoot);
 
     KeHal8259SendEoi(0);
 }
