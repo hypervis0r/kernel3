@@ -49,9 +49,7 @@ typedef DWORD ARGB_COLOR;
 
 #ifdef __GNUC__
 
-#ifdef PACKED
 #undef PACKED
-#endif
 #define PACKED __attribute__((packed))
 
 #define INTERRUPT_HANDLER __attribute__((interrupt))

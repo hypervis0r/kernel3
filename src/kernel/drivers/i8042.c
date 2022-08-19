@@ -1,5 +1,30 @@
 #include "kernel/drivers/i8042.h"
 
+const WORD g_Drv8042KbdSet2Keymap[KBD_KEYMAP_SIZE] = 
+{
+    0, 67, 65, 63, 61, 59, 60, 88,  0, 68, 66, 64, 62, 15, 41,117,
+    0, 56, 42, 93, 29, 16,  2,  0,  0,  0, 44, 31, 30, 17,  3,  0,
+    0, 46, 45, 32, 18,  5,  4, 95,  0, 57, 47, 33, 20, 19,  6,183,
+    0, 49, 48, 35, 34, 21,  7,184,  0,  0, 50, 36, 22,  8,  9,185,
+    0, 51, 37, 23, 24, 11, 10,  0,  0, 52, 53, 38, 39, 25, 12,  0,
+    0, 89, 40,  0, 26, 13,  0,  0, 58, 54, 28, 27,  0, 43,  0, 85,
+    0, 86, 91, 90, 92,  0, 14, 94,  0, 79,124, 75, 71,121,  0,  0,
+    82, 83, 80, 76, 77, 72,  1, 69, 87, 78, 81, 74, 55, 73, 70, 99,
+
+    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+    217,100,255,  0, 97,165,  0,  0,156,  0,  0,  0,  0,  0,  0,125,
+    173,114,  0,113,  0,  0,  0,126,128,  0,  0,140,  0,  0,  0,127,
+    159,  0,115,  0,164,  0,  0,116,158,  0,172,166,  0,  0,  0,142,
+    157,  0,  0,  0,  0,  0,  0,  0,155,  0, 98,  0,  0,163,  0,  0,
+    226,  0,  0,  0,  0,  0,  0,  0,  0,255, 96,  0,  0,  0,143,  0,
+    0,  0,  0,  0,  0,  0,  0,  0,  0,107,  0,105,102,  0,  0,112,
+    110,111,108,112,106,103,  0,119,  0,118,109,  0, 99,104,119,  0,
+
+    0,  0,  0, 65, 99,
+};
+
+BYTE g_LastScancode = 0;
+
 DOE_STATUS Drv8042Initialize()
 {
     // Disable both PS/2 ports
@@ -263,4 +288,29 @@ VOID Drv8042EnablePorts(BYTE Port)
             break;
         }
     }
+}
+
+ 
+INTERRUPT_HANDLER
+VOID Drv8042IrqHandler(struct HAL_AMD64_INTERRUPT_FRAME* frame)
+{
+    BYTE Scancode = Drv8042ReadData();
+
+    if((Scancode & 128) == 128);
+        //g_LastScancode = NULL; // Released // TODO: Idk what to do here yet, so :/
+    else
+        g_LastScancode = Scancode; // Pressed
+
+    KeHal8259SendEoi(1);
+}
+
+BYTE Drv8042GetLastScancode()
+{
+    // TODO: Mutexes :)
+    return g_LastScancode;
+}
+
+BYTE Drv8042TranslateScancode(BYTE Scancode)
+{
+    return g_Drv8042KbdSet2Keymap[Scancode];
 }

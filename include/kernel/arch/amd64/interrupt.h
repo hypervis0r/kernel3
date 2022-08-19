@@ -1,18 +1,21 @@
 #pragma once
 
-#include "kernel/doedef.h"
 
 #include "kernel/arch/amd64/gdt.h"
 #include "kernel/arch/amd64/port.h"
 #include "kernel/arch/amd64/i8259.h"
+#include "kernel/drivers/i8042.h"
 
-typedef struct PACKED HAL_AMD64_IDT_REGISTER
+#include "kernel/doedef.h"
+
+// TODO: Fix this ugly compiler shit
+typedef struct __attribute__((packed)) HAL_AMD64_IDT_REGISTER
 {
     WORD Limit;
-    ULONG_PTR BaseAddress;
+    QWORD BaseAddress;
 } HAL_AMD64_IDT_REGISTER;
 
-typedef struct PACKED HAL_AMD64_GATE_DESCRIPTOR {
+typedef struct __attribute__((packed)) HAL_AMD64_GATE_DESCRIPTOR {
    WORD Offset_1;       // offset bits 0..15
    WORD Selector;       // a code segment selector in GDT or LDT
    BYTE  IST;           // bits 0..2 holds Interrupt Stack Table offset, rest of bits zero.

@@ -1,11 +1,12 @@
 #pragma once
 
-#include <stdint.h>
-#include <Uefi.h>
-#include <Protocol/GraphicsOutput.h>
 
 #include "kernel/doedef.h"
 #include "kernel/graphics/psf_font.h"
+
+#include <stdint.h>
+#include <Uefi.h>
+#include <Protocol/GraphicsOutput.h>
 
 typedef struct DOE_GFX_BUFFER
 {

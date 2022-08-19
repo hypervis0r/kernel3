@@ -7,6 +7,9 @@
 #include "kernel/doedef.h"
 
 #include "kernel/arch/amd64/port.h"
+#include "kernel/arch/amd64/interrupt.h"
+
+#include "kernel/tty.h"
 
 #define PS2_DATA_PORT       0x60
 #define PS2_STATUS_PORT     0x64 // Read
@@ -77,6 +80,8 @@ typedef union PS2_STATUS_REGISTER
     BYTE Data;
 } PS2_STATUS_REGISTER;
 
+#define KBD_KEYMAP_SIZE 512
+
 DOE_STATUS Drv8042Initialize();
 
 /*
@@ -118,4 +123,8 @@ BOOL Drv8042RunPortTest(BYTE Port);
 
 BOOL Drv8042ResetDevice(BYTE Port);
 
-// TODO: Implement me
+INTERRUPT_HANDLER
+VOID Drv8042IrqHandler(struct HAL_AMD64_INTERRUPT_FRAME* frame);
+
+BYTE Drv8042GetLastScancode();
+BYTE Drv8042TranslateScancode(BYTE Scancode);

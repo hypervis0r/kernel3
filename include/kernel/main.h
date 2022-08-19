@@ -1,5 +1,8 @@
 #pragma once
 
+// Lets keep this at the bottom for now
+#include "kernel/doedef.h"
+
 #include "boot/loader.h"
 
 #include "kernel/graphics/graphics.h"
@@ -15,9 +18,6 @@
 #include "kernel/drivers/i8253.h" // PIT
 
 #include "kernel/panic.h"
-
-// Lets keep this at the bottom for now
-#include "kernel/doedef.h"
 
 //#include "boot/boot.h"
 //#include "boot/graphics.h"

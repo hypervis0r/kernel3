@@ -5,17 +5,9 @@
 #include "kernel/drivers/i8253.h"
 
 HAL_AMD64_IDT_REGISTER g_IDTR;
+
+__attribute__((aligned(0x10)))
 HAL_AMD64_GATE_DESCRIPTOR g_IDT[IDT_MAX_DESCRIPTORS];
- 
-INTERRUPT_HANDLER
-void interrupt_handler(PHAL_AMD64_INTERRUPT_FRAME frame)
-{
-    unsigned char scan_code = KeHalPortRead(0x60);
-
-    KeGfxClearScreen(&g_ScreenGraphicsBuffer, 0xFFFF0000);
-
-    KeHal8259SendEoi(1);
-}
 
 VOID KeHalGateDescriptorInitialize(PHAL_AMD64_GATE_DESCRIPTOR Desc, ULONG_PTR Target, BYTE Attributes)
 {
@@ -30,11 +22,11 @@ VOID KeHalGateDescriptorInitialize(PHAL_AMD64_GATE_DESCRIPTOR Desc, ULONG_PTR Ta
 
 VOID KeHalIdtInitialize()
 {
-    g_IDTR.BaseAddress = (ULONG_PTR)&g_IDT[0];
+    g_IDTR.BaseAddress = (QWORD)&g_IDT[0];
     g_IDTR.Limit = sizeof(HAL_AMD64_GATE_DESCRIPTOR) * IDT_MAX_DESCRIPTORS - 1;
 
     KeHalGateDescriptorInitialize(&g_IDT[0x20], (ULONG_PTR)Drv8253IrqHandler, INTERRUPT_GATE_ATTRIB);
-    KeHalGateDescriptorInitialize(&g_IDT[0x21], (ULONG_PTR)interrupt_handler, INTERRUPT_GATE_ATTRIB);
+    KeHalGateDescriptorInitialize(&g_IDT[0x21], (ULONG_PTR)Drv8042IrqHandler, INTERRUPT_GATE_ATTRIB);
 
     KeHal8259Remap(0x20, 0x28);
     KeHalIrqMaskAllLines();

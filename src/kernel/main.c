@@ -44,10 +44,22 @@ EFI_STATUS KeMain(SOA_KERNEL_INFORMATION* KernelInfo)
 
     KeTermInitialize(&Tty, &g_ScreenGraphicsBuffer, &g_LoadedPsfFont);
 
-    for (BYTE c = 0; c < 255; c++)
+    BYTE Scancode = 0;
+    while (TRUE)
     {
-        KeTermPutChar(&Tty, c, 0xFFFFFFFF, 0xFF0000FF);
+        Scancode = Drv8042GetLastScancode();
+
+        if (Scancode != 0)
+        {
+            KeTermPutChar(&Tty, Drv8042TranslateScancode(Scancode), 0xFFFFFFFF, 0x00000000);
+            break;
+        }
     }
+
+    // for (BYTE c = 0; c < 255; c++)
+    // {
+    //     KeTermPutChar(&Tty, c, 0xFFFFFFFF, 0xFF0000FF);
+    // }
 
     for (;;) asm volatile("hlt");
 
