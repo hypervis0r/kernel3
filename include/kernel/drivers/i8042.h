@@ -127,4 +127,5 @@ INTERRUPT_HANDLER
 VOID Drv8042IrqHandler(struct HAL_AMD64_INTERRUPT_FRAME* frame);
 
 BYTE Drv8042GetLastScancode();
+BYTE Drv8042PopLastScancode();
 BYTE Drv8042TranslateScancode(BYTE Scancode);

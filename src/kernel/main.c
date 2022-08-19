@@ -47,12 +47,11 @@ EFI_STATUS KeMain(SOA_KERNEL_INFORMATION* KernelInfo)
     BYTE Scancode = 0;
     while (TRUE)
     {
-        Scancode = Drv8042GetLastScancode();
+        Scancode = Drv8042PopLastScancode();
 
         if (Scancode != 0)
         {
             KeTermPutChar(&Tty, Drv8042TranslateScancode(Scancode), 0xFFFFFFFF, 0x00000000);
-            break;
         }
     }
 
