@@ -52,7 +52,9 @@ typedef DWORD ARGB_COLOR;
 #undef PACKED
 #define PACKED __attribute__((packed))
 
-#define INTERRUPT_HANDLER __attribute__((interrupt))
+#define INTERRUPT_HANDLER(function_name) \
+    __attribute__((interrupt)) VOID function_name(struct HAL_AMD64_INTERRUPT_FRAME* Frame)
+
 #define INLINE inline
 
 #else

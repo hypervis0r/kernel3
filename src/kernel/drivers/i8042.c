@@ -280,8 +280,7 @@ VOID Drv8042EnablePorts(BYTE Port)
 }
 
  
-INTERRUPT_HANDLER
-VOID Drv8042IrqHandler(struct HAL_AMD64_INTERRUPT_FRAME* frame)
+INTERRUPT_HANDLER(Drv8042IrqHandler)
 {
     BYTE Scancode = Drv8042ReadData();
 

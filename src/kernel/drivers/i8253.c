@@ -22,8 +22,7 @@ VOID Drv8253SetPhase(DWORD Hz)
     KeHalEnableInterrupts();
 }
 
-INTERRUPT_HANDLER
-VOID Drv8253IrqHandler(struct HAL_AMD64_INTERRUPT_FRAME* Frame)
+INTERRUPT_HANDLER(Drv8253IrqHandler)
 {
     ++g_TicksPassedSinceBoot;
 

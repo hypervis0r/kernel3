@@ -123,8 +123,7 @@ BOOL Drv8042RunPortTest(BYTE Port);
 
 BOOL Drv8042ResetDevice(BYTE Port);
 
-INTERRUPT_HANDLER
-VOID Drv8042IrqHandler(struct HAL_AMD64_INTERRUPT_FRAME* frame);
+INTERRUPT_HANDLER(Drv8042IrqHandler);
 
 BYTE Drv8042GetLastScancode();
 BYTE Drv8042PopLastScancode();
