@@ -33,7 +33,7 @@ VOID KeHalIdtInitialize()
     g_IDTR.BaseAddress = (ULONG_PTR)&g_IDT[0];
     g_IDTR.Limit = sizeof(HAL_AMD64_GATE_DESCRIPTOR) * IDT_MAX_DESCRIPTORS - 1;
 
-    //KeHalGateDescriptorInitialize(&g_IDT[0x20], (ULONG_PTR)Drv8253IrqHandler, INTERRUPT_GATE_ATTRIB);
+    KeHalGateDescriptorInitialize(&g_IDT[0x20], (ULONG_PTR)Drv8253IrqHandler, INTERRUPT_GATE_ATTRIB);
     KeHalGateDescriptorInitialize(&g_IDT[0x21], (ULONG_PTR)interrupt_handler, INTERRUPT_GATE_ATTRIB);
 
     KeHal8259Remap(0x20, 0x28);
