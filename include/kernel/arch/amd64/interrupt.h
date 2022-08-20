@@ -4,6 +4,8 @@
 #include "kernel/arch/amd64/gdt.h"
 #include "kernel/arch/amd64/port.h"
 #include "kernel/arch/amd64/i8259.h"
+#include "kernel/arch/amd64/exception.h"
+
 #include "kernel/drivers/i8042.h"
 
 #include "kernel/doedef.h"

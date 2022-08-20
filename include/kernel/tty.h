@@ -19,6 +19,8 @@ typedef struct DOE_TTY
     PDOE_GFX_BUFFER GfxBuffer;
 } DOE_TTY, *PDOE_TTY;
 
+extern DOE_TTY g_MainTty;
+
 DOE_STATUS KeTermInitialize(PDOE_TTY Tty, PDOE_GFX_BUFFER GfxBuffer, PDOE_GFX_PSF_FONT Font);
 
 DOE_STATUS KeTermPutChar(PDOE_TTY Tty, BYTE c, ARGB_COLOR fg, ARGB_COLOR bg);

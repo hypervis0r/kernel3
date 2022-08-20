@@ -25,6 +25,11 @@ VOID KeHalIdtInitialize()
     g_IDTR.BaseAddress = (QWORD)&g_IDT[0];
     g_IDTR.Limit = sizeof(HAL_AMD64_GATE_DESCRIPTOR) * IDT_MAX_DESCRIPTORS - 1;
 
+    for (BYTE isr = 0; isr < EXC_COUNT; isr++)
+    {
+        KeHalGateDescriptorInitialize(&g_IDT[isr], ExcIsrTable[isr], INTERRUPT_GATE_ATTRIB);
+    }
+
     KeHalGateDescriptorInitialize(&g_IDT[0x20], (ULONG_PTR)Drv8253IrqHandler, INTERRUPT_GATE_ATTRIB);
     KeHalGateDescriptorInitialize(&g_IDT[0x21], (ULONG_PTR)Drv8042IrqHandler, INTERRUPT_GATE_ATTRIB);
 

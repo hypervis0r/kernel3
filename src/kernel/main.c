@@ -40,9 +40,9 @@ EFI_STATUS KeMain(SOA_KERNEL_INFORMATION* KernelInfo)
     if (Status != DOE_SUCCESS)
         KePanic(Status, "Failed to initialize PSF font");
 
-    DOE_TTY Tty;
+    KeTermInitialize(&g_MainTty, &g_ScreenGraphicsBuffer, &g_LoadedPsfFont);
 
-    KeTermInitialize(&Tty, &g_ScreenGraphicsBuffer, &g_LoadedPsfFont);
+    //KeHalTriggerSoftwareInterrupt();
 
     BYTE Scancode = 0;
     while (TRUE)
@@ -51,7 +51,7 @@ EFI_STATUS KeMain(SOA_KERNEL_INFORMATION* KernelInfo)
 
         if (Scancode != 0)
         {
-            KeTermPutChar(&Tty, Drv8042TranslateScancode(Scancode), 0xFFFFFFFF, 0x00000000);
+            KeTermPutChar(&g_MainTty, Drv8042TranslateScancode(Scancode), 0xFFFFFFFF, 0x00000000);
         }
     }
 

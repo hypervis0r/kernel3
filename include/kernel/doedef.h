@@ -55,6 +55,9 @@ typedef DWORD ARGB_COLOR;
 #define INTERRUPT_HANDLER(function_name) \
     __attribute__((interrupt)) VOID function_name(struct HAL_AMD64_INTERRUPT_FRAME* Frame)
 
+#define INTERRUPT_HANDLER_WITH_ERROR_CODE(function_name) \
+    __attribute__((interrupt)) VOID function_name(struct HAL_AMD64_INTERRUPT_FRAME* Frame, SIZE_T ErrorCode)
+
 #define INLINE inline
 
 #else

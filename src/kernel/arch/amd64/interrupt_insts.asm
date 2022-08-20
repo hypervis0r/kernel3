@@ -20,5 +20,5 @@ KeHalEnableInterrupts:
     ret
 
 KeHalTriggerSoftwareInterrupt:
-    int 21h
+    int3
     ret

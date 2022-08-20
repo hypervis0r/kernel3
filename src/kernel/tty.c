@@ -1,5 +1,7 @@
 #include "kernel/tty.h"
 
+DOE_TTY g_MainTty;
+
 DOE_STATUS KeTermInitialize(PDOE_TTY Tty, PDOE_GFX_BUFFER GfxBuffer, PDOE_GFX_PSF_FONT Font)
 {
     Tty->CharactersPerLine = (GfxBuffer->HorizontalResolution) / Font->FontInfo.width;
