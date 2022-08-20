@@ -42,8 +42,6 @@ EFI_STATUS KeMain(SOA_KERNEL_INFORMATION* KernelInfo)
 
     KeTermInitialize(&g_MainTty, &g_ScreenGraphicsBuffer, &g_LoadedPsfFont);
 
-    KeHalTriggerSoftwareInterrupt();
-
     BYTE Scancode = 0;
     while (TRUE)
     {
